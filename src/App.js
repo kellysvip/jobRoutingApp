@@ -22,7 +22,6 @@ function App() {
   const handleChange = (event, value) => {
     setPage(value);
   };
-
   const renderJobCard = async () => {
     try {
       const res = await jobAPI.getAll();

@@ -11,8 +11,8 @@ root.render(
     <Routes>
       <Route path="/" element={<App />}>
         <Route path="login" element={<LoginPage />} />
-        <Route path="detail" element={<DetailPage />}>
-          <Route path=":detailId" element={<DetailPage />} />
+        <Route path="detail" element={<DetailPage/>}>
+          <Route path=":detailId" element={<DetailPage />}/>
         </Route>
       </Route>
     </Routes>

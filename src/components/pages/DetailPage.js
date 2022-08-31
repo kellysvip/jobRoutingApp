@@ -9,6 +9,7 @@ import {
   Box,
 } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
+
 const bull = (
   <Box
     component="span"
@@ -17,11 +18,9 @@ const bull = (
     •
   </Box>
 );
-
 const DetailPage = () => {
   const navigate = useNavigate();
   const params = useParams();
-
   console.log("jobid", params.detailId);
   const handleClick = () => {
     navigate("/");
