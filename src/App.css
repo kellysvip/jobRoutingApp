@@ -1,0 +1,34 @@
+*{
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color: #fff;
+}
+.app {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+}
+body {
+  background-color: gray;
+}
+
+.form {
+  position: relative;
+  background-color: black;
+  color: #fff;
+  padding: 50px;
+  width: 500px;
+  border-radius: 10px;
+  top: -500px;
+
+}
+/* .form::before {
+  content: '';
+  z-index: 999;
+} */
+
