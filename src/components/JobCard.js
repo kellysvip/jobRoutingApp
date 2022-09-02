@@ -21,12 +21,13 @@ import { AuthContext } from "../App";
 //   </Box>
 // );
 
-export default function JobCard({ job }) {
+export default function JobCard({ job, id }) {
   const auth = useContext(AuthContext);
   const navigate = useNavigate();
-
+  console.log('id', id)
   const handleClick = () => {
-    auth.isLogged ? navigate("/detail/:detailId") : navigate("/login");
+    auth.isLogged ? navigate(`/detail/${id}`) : navigate("/login");
+    auth.setOpen(true)
   };
 
   return (
@@ -60,7 +61,7 @@ export default function JobCard({ job }) {
           ))}
         </CardActions>
 
-        <Typography variant="body2">{job.description}</Typography>
+        <Typography variant="body2">{job.description.slice(0,100).trim()+'...'}</Typography>
       </CardContent>
       <CardActions>
         <Button

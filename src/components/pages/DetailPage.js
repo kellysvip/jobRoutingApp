@@ -1,74 +1,110 @@
 import React from "react";
-import CloseIcon from "@mui/icons-material/Close";
+
 import {
-  Card,
-  CardContent,
-  CardActions,
+
   Button,
-  Typography,
+
   Box,
 } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
+import { useEffect, useState, useContext } from "react";
+import Modal from "@mui/material/Modal";
+import { AuthContext } from "../../App";
 
-const bull = (
-  <Box
-    component="span"
-    sx={{ display: "inline-block", mx: "2px", transform: "scale(0.8)" }}
-  >
-    •
-  </Box>
-);
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  pt: 2,
+  px: 4,
+  pb: 3,
+};
+
 const DetailPage = () => {
+  const auth = useContext(AuthContext);
   const navigate = useNavigate();
-  const params = useParams();
-  console.log("jobid", params.detailId);
-  const handleClick = () => {
+  const { detailId: id } = useParams();
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState({});
+  useEffect(() => {
+    const getData = async () => {
+      setLoading(true);
+      const res = await (
+        await fetch(`http://localhost:3000/jobs/${id}`)
+      ).json();
+      setData(res);
+      setLoading(false);
+    };
+    getData();
+  }, [id]);
+
+  const handleClose = () => {
+    auth.setOpen(false);
     navigate("/");
   };
+
   return (
-    <Box sx={{ position: "relative", top: "-500px" }}>
-      <Card
-        sx={{
-          width: 500,
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-        }}
-        variant="outlined"
+   <React.Fragment>
+    {loading && <p>Loading...</p>}
+      <Modal
+        hideBackdrop
+        open={auth.open}
+        onClose={handleClose}
+        aria-labelledby="child-modal-title"
+        aria-describedby="child-modal-description"
       >
-        <React.Fragment>
+        <Box sx={{ ...style, width: 400, color: "#fff" }}>
+          <h2 id="child-modal-title">{data.title}</h2>
+          <p id="child-modal-description">{data.description}</p>
+
           <Button
-            sx={{ position: "relative", left: "-200px" }}
-            onClick={handleClick}
+            variant="contained"
+            sx={{
+              backgroundColor: "hsl(16, 100%, 50%)",
+              borderRadius: 4,
+              color: "#fff",
+            }}
+            size="small"
           >
-            <CloseIcon />
+            Up to: {data.salaryHigh}
           </Button>
-          <CardContent>
-            <Typography
-              sx={{ fontSize: 14 }}
-              color="text.secondary"
-              gutterBottom
+          <Button
+            variant="contained"
+            sx={{
+              backgroundColor: "hsl(16, 100%, 50%)",
+              borderRadius: 4,
+              color: "#fff",
+            }}
+            size="small"
+          >
+             {data.city}
+          </Button>
+          {data.remote && (
+            <Button
+              variant="contained"
+              sx={{
+                backgroundColor: "hsl(16, 100%, 50%)",
+                borderRadius: 4,
+                color: "#fff",
+              }}
+              size="small"
             >
-              Word of the Day
-            </Typography>
-            <Typography variant="h5" component="div">
-              be{bull}nev{bull}o{bull}lent
-            </Typography>
-            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-              adjective
-            </Typography>
-            <Typography variant="body2">
-              well meaning and kindly.
-              <br />
-              {'"a benevolent smile"'}
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <Button size="small">Learn More</Button>
-          </CardActions>
-        </React.Fragment>
-      </Card>
-    </Box>
+              {" "}
+              Work From Home{" "}
+            </Button>
+          )}
+          <br />
+          <Button sx={{ mt: 3 }} onClick={handleClose}>
+            Close
+          </Button>
+        </Box>
+      </Modal>
+    </React.Fragment>
   );
 };
 

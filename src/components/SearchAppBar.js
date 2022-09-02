@@ -71,6 +71,10 @@ export default function SearchAppBar() {
     }
   };
 
+  const handleChange = (e) => {
+    auth.setSearch(e.target.value)
+  }
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -100,6 +104,7 @@ export default function SearchAppBar() {
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ "aria-label": "search" }}
+              onChange={handleChange}
             />
           </Search>
           <Typography sx={{ flexGrow: 1 }}></Typography>
